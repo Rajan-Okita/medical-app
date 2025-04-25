@@ -1,0 +1,49 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Doctor {
+  doctor_id  Int    @id @default(autoincrement())
+  first_name String
+  last_name  String
+  email      String @unique
+  password   String
+}
+
+model Program {
+  program_id   Int     @id @default(autoincrement())
+  program_name String
+  duration     Int
+  clients      ClientProgram[]
+}
+
+model Client {
+  client_id  Int     @id @default(autoincrement())
+  first_name String
+  last_name  String
+  weight     Float?
+  age        Int?
+  programs   ClientProgram[]
+}
+
+model ClientProgram {
+  id         Int     @id @default(autoincrement())
+  client     Client  @relation(fields: [client_id], references: [client_id])
+  client_id  Int
+  program    Program @relation(fields: [program_id], references: [program_id])
+  program_id Int
+
+  @@unique([client_id, program_id])  // Ensure no duplicate enrollments
+}
