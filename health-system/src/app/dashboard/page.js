@@ -7,7 +7,7 @@ export default function DashboardPage() {
       <p>Welcome, Doctor! What would you like to do today?</p>
 
       <div style={{ marginTop: '50px' }}>
-        <h3>Client Management</h3>
+        <h3>Client Managements</h3>
         <Link href="/client">
           <button style={buttonStyle}>➕ Add Client</button>
         </Link>
