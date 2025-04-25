@@ -20,7 +20,7 @@ export default function LoginPage() {
     const data = await res.json();
     if (res.ok) {
       alert('Login successful! Redirecting to dashboard...');
-      router.push('/dashboard');   // You can create this page next
+      router.push('/dashboard');
     } else {
       setError(data.message);
     }
