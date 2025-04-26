@@ -20,6 +20,8 @@ export default function ViewProgramsPage() {
   };
 
   const handleDelete = async (id) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this program?");
+  if (!confirmDelete) return
     await fetch(`/api/program/${id}`, { method: 'DELETE' });
     fetchPrograms();
   };
