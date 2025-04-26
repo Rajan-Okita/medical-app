@@ -5,8 +5,10 @@ import Footer from './Footer';
 
 export default function LayoutWrapper({ children }) {
   const pathname = usePathname();
-  
-  const showNav = pathname !== '/';
+
+  const noNavPaths = ['/', '/auth/login', '/auth/signup'];
+
+  const showNav = !noNavPaths.includes(pathname);
 
   return (
     <>
