@@ -69,76 +69,97 @@ export default function ClientDetailPage({ params }) {
     router.push('/client-list');
   };
 
-  if (loading) return <p style={{ textAlign: 'center', marginTop: '50px' }}>Loading client...</p>;
-  if (!client) return <p style={{ textAlign: 'center', marginTop: '50px' }}>Client not found.</p>;
+  if (loading) return <p className="text-center mt-12 text-gray-500 text-lg">Loading client...</p>;
+  if (!client) return <p className="text-center mt-12 text-red-500 text-lg">Client not found.</p>;
 
   return (
-    <div style={{ maxWidth: '600px', margin: 'auto', paddingTop: '50px' }}>
+    <div className="max-w-xl mx-auto mt-12 bg-white p-8 rounded shadow">
       {editMode ? (
-        <form onSubmit={handleEditSubmit}>
-          <h3>Edit Client Info</h3>
+        <form onSubmit={handleEditSubmit} className="space-y-4">
+          <h3 className="text-2xl font-bold mb-4 text-center">Edit Client Info</h3>
+
           <input
+            className="w-full border rounded px-3 py-2"
             value={editForm.first_name}
             onChange={(e) => setEditForm({ ...editForm, first_name: e.target.value })}
+            placeholder="First Name"
             required
-          /><br/>
+          />
           <input
+            className="w-full border rounded px-3 py-2"
             value={editForm.last_name}
             onChange={(e) => setEditForm({ ...editForm, last_name: e.target.value })}
+            placeholder="Last Name"
             required
-          /><br/>
+          />
           <input
             type="number"
+            className="w-full border rounded px-3 py-2"
             placeholder="Weight"
             value={editForm.weight}
             onChange={(e) => setEditForm({ ...editForm, weight: e.target.value })}
-          /><br/>
+          />
           <input
             type="number"
+            className="w-full border rounded px-3 py-2"
             placeholder="Age"
             value={editForm.age}
             onChange={(e) => setEditForm({ ...editForm, age: e.target.value })}
-          /><br/>
+          />
 
-          <h4>Manage Programs:</h4>
-          {allPrograms.length > 0 ? allPrograms.map(program => (
-            <div key={program.program_id}>
-              <label>
+          <div>
+            <h4 className="font-medium mb-2">Manage Programs</h4>
+            {allPrograms.length > 0 ? allPrograms.map(program => (
+              <div key={program.program_id} className="flex items-center mb-2">
                 <input
                   type="checkbox"
+                  className="mr-2"
                   checked={selectedPrograms.includes(program.program_id)}
                   onChange={() => handleProgramToggle(program.program_id)}
                 />
-                {program.program_name} ({program.duration} days)
-              </label>
-            </div>
-          )) : <p>No programs available.</p>}
+                <span>{program.program_name} ({program.duration} days)</span>
+              </div>
+            )) : <p className="text-sm text-gray-500">No programs available.</p>}
+          </div>
 
-          <br/>
-          <button type="submit">💾 Save</button>
-          <button type="button" onClick={() => setEditMode(false)}>Cancel</button>
+          <div className="flex space-x-4">
+            <button type="submit" className="flex-1 bg-green-600 text-white py-2 rounded hover:bg-green-700 transition">
+              💾 Save
+            </button>
+            <button type="button" onClick={() => setEditMode(false)} className="flex-1 bg-gray-300 py-2 rounded hover:bg-gray-400 transition">
+              Cancel
+            </button>
+          </div>
         </form>
       ) : (
         <>
-          <h2>{client.first_name} {client.last_name}</h2>
+          <h2 className="text-3xl font-bold mb-4 text-center">{client.first_name} {client.last_name}</h2>
           <p><strong>Age:</strong> {client.age || 'N/A'}</p>
           <p><strong>Weight:</strong> {client.weight || 'N/A'} kg</p>
 
-          <h4>Enrolled Programs:</h4>
-          <ul>
-            {client.programs.length > 0 ? (
-              client.programs.map(p => (
-                <li key={p.program.program_id}>
-                  {p.program.program_name} ({p.program.duration} days)
-                </li>
-              ))
-            ) : (
-              <li>No programs enrolled.</li>
-            )}
-          </ul>
+          <div className="mt-4">
+            <h4 className="font-medium mb-2">Enrolled Programs:</h4>
+            <ul className="list-disc list-inside">
+              {client.programs.length > 0 ? (
+                client.programs.map(p => (
+                  <li key={p.program.program_id}>
+                    {p.program.program_name} ({p.program.duration} days)
+                  </li>
+                ))
+              ) : (
+                <li className="text-gray-500">No programs enrolled.</li>
+              )}
+            </ul>
+          </div>
 
-          <button onClick={() => setEditMode(true)}>✏️ Edit</button>
-          <button onClick={handleDelete} style={{ marginLeft: '10px' }}>🗑️ Delete</button>
+          <div className="flex space-x-4 mt-6">
+            <button onClick={() => setEditMode(true)} className="flex-1 bg-sky-600 text-white py-2 rounded hover:bg-sky-700 transition">
+              ✏️ Edit
+            </button>
+            <button onClick={handleDelete} className="flex-1 bg-red-500 text-white py-2 rounded hover:bg-red-600 transition">
+              🗑️ Delete
+            </button>
+          </div>
         </>
       )}
     </div>
