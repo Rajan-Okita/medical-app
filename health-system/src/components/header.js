@@ -10,7 +10,7 @@ export default function Header({ showNav = true }) {
             <Link href="/dashboard" className="hover:underline">Dashboard</Link>
             <Link href="/client-list" className="hover:underline">Clients</Link>
             <Link href="/program-list" className="hover:underline">Programs</Link>
-            <Link href="/auth/login" className="hover:underline">Logout</Link>
+            <Link href="/" className="hover:underline">Logout</Link>
           </nav>
         )}
       </div>
