@@ -36,41 +36,91 @@ export default function AddClientPage() {
 
     const data = await res.json();
     if (res.ok) {
-      setMessage('Client added and enrolled successfully!');
+      setMessage('✅ Client added and enrolled successfully!');
       setForm({ first_name: '', last_name: '', weight: '', age: '' });
       setSelectedPrograms([]);
     } else {
-      setMessage(data.message);
+      setMessage(`❌ ${data.message}`);
     }
   };
 
   return (
-    <div style={{ maxWidth: '400px', margin: 'auto', paddingTop: '50px' }}>
-      <h2>Add New Client</h2>
-      <form onSubmit={handleSubmit}>
-        <input placeholder="First Name" value={form.first_name} onChange={(e) => setForm({ ...form, first_name: e.target.value })} required /><br/>
-        <input placeholder="Last Name" value={form.last_name} onChange={(e) => setForm({ ...form, last_name: e.target.value })} required /><br/>
-        <input type="number" placeholder="Weight (kg)" value={form.weight} onChange={(e) => setForm({ ...form, weight: e.target.value })} /><br/>
-        <input type="number" placeholder="Age" value={form.age} onChange={(e) => setForm({ ...form, age: e.target.value })} /><br/>
+    <div className="max-w-xl mx-auto mt-12 bg-white p-8 rounded shadow">
+      <h2 className='text-2xl font-bold mb-6 text-center'>Add New Client</h2>
+      <form onSubmit={handleSubmit} className="space-y-4">
 
-        <h4>Select Programs:</h4>
-        {programs.map(program => (
-          <div key={program.program_id}>
-            <label>
+        <div>
+          <label className="block mb-1 font-medium">First Name</label>
+          <input 
+            className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-400"
+            placeholder="First Name"
+            value={form.first_name}
+            onChange={(e) => setForm({ ...form, first_name: e.target.value })}
+            required 
+          />
+        </div>
+
+        <div>
+          <label className="block mb-1 font-medium">Last Name</label>
+          <input 
+            className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-400"
+            placeholder="Last Name"
+            value={form.last_name}
+            onChange={(e) => setForm({ ...form, last_name: e.target.value })}
+            required 
+          />
+        </div>
+
+        <div>
+          <label className="block mb-1 font-medium">Weight (kg)</label>
+          <input 
+            type="number"
+            className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-400"
+            placeholder="Weight"
+            value={form.weight}
+            onChange={(e) => setForm({ ...form, weight: e.target.value })}
+          />
+        </div>
+
+        <div>
+          <label className="block mb-1 font-medium">Age</label>
+          <input 
+            type="number"
+            className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-400"
+            placeholder="Age"
+            value={form.age}
+            onChange={(e) => setForm({ ...form, age: e.target.value })}
+          />
+        </div>
+
+        <div>
+          <label className="block mb-2 font-medium">Select Programs</label>
+          {programs.length > 0 ? programs.map(program => (
+            <div key={program.program_id} className="flex items-center mb-2">
               <input
                 type="checkbox"
+                className="mr-2"
                 checked={selectedPrograms.includes(program.program_id)}
                 onChange={() => handleProgramChange(program.program_id)}
               />
-              {program.program_name} ({program.duration} days)
-            </label>
-          </div>
-        ))}
+              <span>{program.program_name} ({program.duration} days)</span>
+            </div>
+          )) : <p className="text-sm text-gray-500">No programs available.</p>}
+        </div>
 
-        <br/>
-        <button type="submit">Add Client</button>
+        <button 
+          type="submit" 
+          className="w-full bg-sky-600 text-white py-2 rounded hover:bg-sky-700 transition"
+        >
+          Add Client
+        </button>
       </form>
-      {message && <p>{message}</p>}
+
+      {message && (
+        <p className={`mt-4 text-center font-medium ${message.startsWith('✅') ? 'text-green-600' : 'text-red-600'}`}>
+          {message}
+        </p>
+      )}
     </div>
   );
 }
